@@ -101,5 +101,4 @@ data['전용면적'] = data['전용면적'].astype(float)
 
 items = pd.DataFrame(data) 
 items.head()
-items.to_csv(os.path.join("%s_%s~%s.csv" %(gu_code, year[0], year[-1])), index=False,encoding="utf-8")
-items.to_excel('output_file_last_all.xlsx', index=False)
+items.to_csv(os.path.join("bodongsanData.csv"), index=False,encoding="utf-8")
