@@ -8,6 +8,23 @@ import axios from "axios";
 const RoomList = () => {
     const value = useContext(RoomListContext);
 
+    useEffect(() => {
+        // 채팅 방 리스트 받아오기
+        socket.emit("rooms", (res) => {
+            console.log(res.data);
+            console.log(value.state.user);
+            value.actions.setRooms(res.data);
+        });
+    }, []);
+
+    // 채팅방 업데이트
+    useEffect(() => {
+        // 채팅 방 리스트 받아오기
+        socket.emit("rooms", (res) => {
+            value.actions.setRooms(res.data);
+        });
+    }, [value.state.rooms]);
+
     // 채팅 방 입장
     const moveToChat = (rid) => {
         // 채팅 유저 정보가 없을 경우
@@ -19,31 +36,11 @@ const RoomList = () => {
                 if (res && res.ok) {
                     console.log("successfully join", res);
                     value.actions.setUser(res.data);
-
-                    // const name = {
-                    //     name: userName,
-                    // };
-
-                    // axios.get('http://localhost:5001/setSession', { params: name, withCredentials: true })
-                    //     .then((response) => {
-                    //         console.log('Session set', response);
-                    //     })
-                    //     .catch(error => {
-                    //         console.error('Error setting session', error);
-                    //     });
                 }
                 else {
                     console.log("fail to join", res);
                 }
             })
-
-            // 서버에 로그인 요청
-            // socket.emit("login", userName, (res) => {
-            //     if (res.ok) {
-            //         value.actions.setUser(res.data); // 유저 정보 저장
-            //         value.actions.setRId(rid); // 채팅 방 id 저장
-            //     }
-            // });
         }
     };
 

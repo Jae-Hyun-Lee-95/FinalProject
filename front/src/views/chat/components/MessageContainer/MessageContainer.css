@@ -37,7 +37,6 @@
   display: flex;
   align-items: flex-start; /* 프로필 이미지와 메시지 내용을 세로 정렬 */
   margin-bottom: 10px;
-  align-items: center; /* 중앙 정렬 */
 }
 
 .profile-image {
