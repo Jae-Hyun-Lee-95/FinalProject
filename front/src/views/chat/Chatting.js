@@ -12,6 +12,7 @@ import RoomList from './components/RoomList/RoomList';
 import { useContext } from 'react';
 import RoomListContext from './contexts/RoomListContext';
 import axios from 'axios';
+import NavBar from './components/NavBar/NavBar';
 
 const Chatting = ({ props, user }) => {
     const navigate = useNavigate();
@@ -37,12 +38,7 @@ const Chatting = ({ props, user }) => {
         // .catch(error => {
         //     console.error('Error getting session', error);
         // });
-        // 채팅 방 리스트 받아오기
-        socket.emit("rooms", (res) => {
-            console.log(res.data);
-            console.log(value.state.user);
-            value.actions.setRooms(res.data);
-        });
+        
 
         // 서버가 모든 클라이언트에게 보내는 메세지 확인
         let i = 0;
@@ -59,14 +55,6 @@ const Chatting = ({ props, user }) => {
     // 유저 정보 업데이트
     // useEffect(() => {
     // }, [value.state.user]);
-
-    // 채팅방 업데이트
-    useEffect(() => {
-        // 채팅 방 리스트 받아오기
-        socket.emit("rooms", (res) => {
-            value.actions.setRooms(res.data);
-        });
-    }, [value.state.rooms]);
 
     // 메세지리스트가 변화가 생길 때 스크롤을 이동시킴
     useEffect(() => {
@@ -86,14 +74,6 @@ const Chatting = ({ props, user }) => {
         });
     }
 
-    const leaveRoom = () => {
-        socket.emit("leaveRoom", value.state.user, (res) => {
-            if (res.ok) {
-                value.actions.setUser(null);
-            }// 다시 채팅방 리스트 페이지로 돌아감
-        });
-    }
-
     if (value.state.user) {
         return (
             <div className="container" style={{ margin: "50px auto" }}>
@@ -103,16 +83,12 @@ const Chatting = ({ props, user }) => {
                         {/* <h5><Link onClick={chatRoomJoin}>더리치 포트폴리오 토론방 7389</Link></h5>
                                     <h6>올해는 작년보다 더 좋을듯 ' 방금 전</h6> */}
                         <div className='row roomContainer'>
-                            <RoomList rooms={value.state.rooms} />
+                            <RoomList />
                         </div>
                     </div>
 
                     <div className="col-lg-7 col-md-12 card cardCustom">
-                        {/* nav 이부분 추가  */}
-                        <nav>
-                            <Button onClick={leaveRoom} className='back-button'>←</Button>
-                            <div className='nav-user'>{value.state.user.name}</div>
-                        </nav>
+                        <NavBar />
                         <div className='row chatContainer' style={{ paddingBottom: 50 }}>
                             <MessageContainer messageList={messageList} user={value.state.user} />
                         </div>
