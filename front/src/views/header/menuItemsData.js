@@ -52,7 +52,7 @@ export const MenuItemsData = [
     },
     {
         title: '채팅',
-        url: 'chat1',
+        url: 'Chatting',
     },
     {
         title: '커뮤니티',
